@@ -13,6 +13,12 @@
       "bundleIdentifier": "com.rainorshineapps.APP_SLUG",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
+      },
+      "privacyManifests": {
+        "NSPrivacyTracking": false,
+        "NSPrivacyTrackingDomains": [],
+        "NSPrivacyCollectedDataTypes": [],
+        "NSPrivacyAccessedAPITypes": []
       }
     },
     "android": {
@@ -43,6 +49,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "privacyPolicyUrl": "https://annebigister.github.io/APP_SLUG/privacy.html",
+      "supportUrl": "https://annebigister.github.io/APP_SLUG/support.html",
+      "marketingUrl": "https://annebigister.github.io/APP_SLUG/index.html"
     }
   }
 }
