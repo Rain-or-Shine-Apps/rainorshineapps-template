@@ -6,10 +6,10 @@ import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-goo
 import { router } from 'expo-router';
 import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { loginRevenueCat } from '@/lib/purchases';
 
 export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
-
   const insets = useSafeAreaInsets();
 
   const handleAppleSignIn = async () => {
@@ -21,11 +21,14 @@ export default function LoginScreen() {
           AppleAuthentication.AppleAuthenticationScope.EMAIL,
         ],
       });
-      const { error } = await supabase.auth.signInWithIdToken({
+      const { data, error } = await supabase.auth.signInWithIdToken({
         provider: 'apple',
         token: credential.identityToken!,
       });
       if (error) throw error;
+      if (data.user) {
+        await loginRevenueCat(data.user.id);
+      }
       router.replace('/home');
     } catch (error: any) {
       if (error.code !== 'ERR_REQUEST_CANCELED') {
@@ -43,11 +46,14 @@ export default function LoginScreen() {
       const userInfo = await GoogleSignin.signIn();
       const idToken = userInfo.data?.idToken;
       if (!idToken) throw new Error('No ID token received');
-      const { error } = await supabase.auth.signInWithIdToken({
+      const { data, error } = await supabase.auth.signInWithIdToken({
         provider: 'google',
         token: idToken,
       });
       if (error) throw error;
+      if (data.user) {
+        await loginRevenueCat(data.user.id);
+      }
       router.replace('/home');
     } catch (error: any) {
       if (error.code !== statusCodes.SIGN_IN_CANCELLED) {
@@ -60,6 +66,10 @@ export default function LoginScreen() {
 
   return (
     <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
+      <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+        <Text style={styles.backArrow}>←</Text>
+      </TouchableOpacity>
+
       <View style={styles.header}>
         <Text style={styles.title}>APP_NAME</Text>
         <Text style={styles.subtitle}>APP_TAGLINE</Text>
@@ -96,7 +106,10 @@ export default function LoginScreen() {
       </View>
 
       <Text style={styles.footer}>
-        By continuing you agree to our Terms & Privacy Policy
+        By continuing you agree to our{' '}
+        <Text style={styles.footerLink} onPress={() => router.push('/terms-conditions')}>Terms</Text>
+        {' '}&{' '}
+        <Text style={styles.footerLink} onPress={() => router.push('/privacy-policy')}>Privacy Policy</Text>
       </Text>
     </View>
   );
@@ -110,9 +123,21 @@ const styles = StyleSheet.create({
     padding: 24,
     paddingBottom: 48,
   },
+  backButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 12,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
+  },
+  backArrow: { fontSize: 18, color: '#1e293b' },
   header: {
     alignItems: 'center',
-    marginTop: 60,
+    marginTop: 40,
   },
   title: {
     fontSize: 48,
@@ -144,9 +169,6 @@ const styles = StyleSheet.create({
     color: '#1e293b',
     fontWeight: '600',
   },
-  footer: {
-    textAlign: 'center',
-    fontSize: 12,
-    color: '#94a3b8',
-  },
+  footer: { textAlign: 'center', fontSize: 12, color: '#94a3b8', lineHeight: 18 },
+  footerLink: { color: '#64748b', textDecorationLine: 'underline' },
 });

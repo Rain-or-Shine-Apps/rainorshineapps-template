@@ -3,12 +3,16 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { router } from 'expo-router';
 import { ArrowLeft, LogOut, Crown, HelpCircle, Shield, FileText, Eye, Sparkles, User } from 'lucide-react-native';
-import { hasEntitlement } from '@/lib/purchases';
+import { hasEntitlement, logoutRevenueCat } from '@/lib/purchases';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const ENTITLEMENT_ID = 'premium'; // Replace with your entitlement ID
 
 export default function ProfileScreen() {
   const [email, setEmail] = useState('');
   const [hasPremium, setHasPremium] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     loadUser();
@@ -18,13 +22,11 @@ export default function ProfileScreen() {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       setEmail(user.email ?? '');
-      // Replace 'premium' with your entitlement ID
-      const premium = await hasEntitlement('premium');
+      setIsSignedIn(true);
+      const premium = await hasEntitlement(ENTITLEMENT_ID);
       setHasPremium(premium);
     }
   };
-
-  const insets = useSafeAreaInsets();
 
   const handleSignOut = async () => {
     Alert.alert('Sign Out', 'Are you sure?', [
@@ -33,8 +35,9 @@ export default function ProfileScreen() {
         text: 'Sign Out',
         style: 'destructive',
         onPress: async () => {
+          await logoutRevenueCat();
           await supabase.auth.signOut();
-          router.replace('/login');
+          router.replace('/home');
         }
       }
     ]);
@@ -51,9 +54,11 @@ export default function ProfileScreen() {
 
       <View style={styles.avatarSection}>
         <View style={styles.avatar}>
-          <Text style={styles.avatarText}>{email?.[0]?.toUpperCase() || '?'}</Text>
+          <Text style={styles.avatarText}>
+            {isSignedIn ? (email?.[0]?.toUpperCase() || '?') : '?'}
+          </Text>
         </View>
-        <Text style={styles.email}>{email}</Text>
+        <Text style={styles.email}>{isSignedIn ? email : 'Not signed in'}</Text>
         {hasPremium && (
           <View style={styles.premiumBadge}>
             <Sparkles size={12} color="#4f46e5" />
@@ -103,10 +108,16 @@ export default function ProfileScreen() {
         ))}
       </View>
 
-      <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
-        <LogOut size={18} color="#dc2626" />
-        <Text style={styles.signOutText}>Sign Out</Text>
-      </TouchableOpacity>
+      {isSignedIn ? (
+        <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
+          <LogOut size={18} color="#dc2626" />
+          <Text style={styles.signOutText}>Sign Out</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity style={styles.signInButton} onPress={() => router.push('/login')}>
+          <Text style={styles.signInButtonText}>Sign In</Text>
+        </TouchableOpacity>
+      )}
     </ScrollView>
   );
 }
@@ -160,4 +171,9 @@ const styles = StyleSheet.create({
     borderWidth: 1, borderColor: '#fecaca',
   },
   signOutText: { fontSize: 15, color: '#dc2626', fontWeight: '600' },
+  signInButton: {
+    height: 48, backgroundColor: '#4f46e5',
+    borderRadius: 14, alignItems: 'center', justifyContent: 'center',
+  },
+  signInButtonText: { fontSize: 15, color: '#fff', fontWeight: '600' },
 });

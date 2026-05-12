@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ActivityIndicator, Alert } from 'react-native';
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { loginRevenueCat } from '@/lib/purchases';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -19,12 +20,18 @@ export default function LoginEmailScreen() {
     setLoading(true);
     try {
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({ email, password });
+        const { data, error } = await supabase.auth.signUp({ email, password });
         if (error) throw error;
+        if (data.user) {
+          await loginRevenueCat(data.user.id);
+        }
         Alert.alert('Account created!', 'You are now signed in.');
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+        if (data.user) {
+          await loginRevenueCat(data.user.id);
+        }
       }
       router.replace('/home');
     } catch (error: any) {
@@ -46,6 +53,7 @@ export default function LoginEmailScreen() {
         <TextInput
           style={styles.input}
           placeholder="Email"
+          placeholderTextColor="#94a3b8"
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
@@ -54,6 +62,7 @@ export default function LoginEmailScreen() {
         <TextInput
           style={styles.input}
           placeholder="Password"
+          placeholderTextColor="#94a3b8"
           value={password}
           onChangeText={setPassword}
           secureTextEntry

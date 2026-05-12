@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { ArrowLeft, Eye, Type, Moon } from 'lucide-react-native';
+import { ArrowLeft, Eye, Type, Moon, Mail } from 'lucide-react-native';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -62,6 +62,17 @@ export default function AccessibilityScreen() {
           <Text style={styles.instructionText}>Settings → Accessibility → TalkBack</Text>
         </View>
       </View>
+
+      <View style={styles.card}>
+        <View style={styles.cardTitleRow}>
+          <Mail size={18} color="#4f46e5" />
+          <Text style={styles.cardTitle}>Contact Us</Text>
+        </View>
+        <Text style={styles.infoText}>If you experience any accessibility issues, please get in touch and we'll do our best to help.</Text>
+        <TouchableOpacity onPress={() => router.push('/support')}>
+          <Text style={styles.link}>Go to Support →</Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
@@ -86,4 +97,5 @@ const styles = StyleSheet.create({
   instructionBox: { backgroundColor: '#f8fafc', borderRadius: 8, padding: 12, gap: 4 },
   instructionTitle: { fontSize: 13, fontWeight: '600', color: '#1e293b' },
   instructionText: { fontSize: 12, color: '#64748b' },
+  link: { fontSize: 13, color: '#4f46e5', textDecorationLine: 'underline' },
 });

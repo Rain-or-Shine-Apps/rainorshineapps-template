@@ -4,22 +4,27 @@ import Purchases, { PurchasesPackage } from 'react-native-purchases';
 import { router } from 'expo-router';
 import { ArrowLeft, Check, Sparkles } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { supabase } from '@/lib/supabase';
 
 export default function PricingScreen() {
   const [loading, setLoading] = useState(true);
   const [purchasing, setPurchasing] = useState(false);
   const [hasPremium, setHasPremium] = useState(false);
   const [package_, setPackage] = useState<PurchasesPackage | null>(null);
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     loadPurchaseInfo();
   }, []);
-  const insets = useSafeAreaInsets();
+
   const loadPurchaseInfo = async () => {
     try {
-      const customerInfo = await Purchases.getCustomerInfo();
-      // Replace 'premium' with your entitlement ID
-      setHasPremium(typeof customerInfo.entitlements.active['premium'] !== 'undefined');
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const customerInfo = await Purchases.getCustomerInfo();
+        // Replace 'premium' with your entitlement ID
+        setHasPremium(typeof customerInfo.entitlements.active['premium'] !== 'undefined');
+      }
       const offerings = await Purchases.getOfferings();
       if ((offerings.current?.availablePackages.length ?? 0) > 0) {
         setPackage(offerings.current!.availablePackages[0]);
@@ -33,7 +38,7 @@ export default function PricingScreen() {
 
   const handlePurchase = async () => {
     if (!package_) {
-      Alert.alert('Error', 'Product not available. Please try again later.');
+      Alert.alert('Not available', 'Product not available. Please try again later.');
       return;
     }
     setPurchasing(true);
@@ -41,7 +46,14 @@ export default function PricingScreen() {
       const { customerInfo } = await Purchases.purchasePackage(package_);
       if (typeof customerInfo.entitlements.active['premium'] !== 'undefined') {
         setHasPremium(true);
-        Alert.alert('Success!', 'You now have premium access.');
+        Alert.alert(
+          'Welcome to Premium!',
+          'Sign in to unlock your purchase across devices.',
+          [
+            { text: 'Sign in now', onPress: () => router.push('/login') },
+            { text: 'Later', style: 'cancel' },
+          ]
+        );
       }
     } catch (error: any) {
       if (!error.userCancelled) {
@@ -52,21 +64,8 @@ export default function PricingScreen() {
     }
   };
 
-  const handleRestore = async () => {
-    setLoading(true);
-    try {
-      const customerInfo = await Purchases.restorePurchases();
-      if (typeof customerInfo.entitlements.active['premium'] !== 'undefined') {
-        setHasPremium(true);
-        Alert.alert('Restored!', 'Your purchase has been restored.');
-      } else {
-        Alert.alert('Nothing to restore', 'No previous purchases found.');
-      }
-    } catch (error: any) {
-      Alert.alert('Error', error.message);
-    } finally {
-      setLoading(false);
-    }
+  const handleRestore = () => {
+    router.push('/login');
   };
 
   if (loading) {
@@ -78,7 +77,7 @@ export default function PricingScreen() {
   }
 
   return (
-     <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}>
+    <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <ArrowLeft size={16} color="#94a3b8" />
@@ -161,6 +160,14 @@ export default function PricingScreen() {
       <TouchableOpacity onPress={handleRestore} style={styles.restore}>
         <Text style={styles.restoreText}>Restore purchases</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => router.push('/login')} style={styles.signInLink}>
+        <Text style={styles.signInLinkText}>Already have an account? Sign in →</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.legal}>
+        Payment charged at confirmation. One-time purchase — no subscription.
+      </Text>
     </ScrollView>
   );
 }
@@ -205,6 +212,12 @@ const styles = StyleSheet.create({
   },
   buttonContent: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   upgradeButtonText: { color: '#ffffff', fontWeight: '600', fontSize: 16 },
-  restore: { alignItems: 'center', marginTop: 8 },
-  restoreText: { color: '#64748b', fontSize: 14 },
+  restore: { alignItems: 'center', marginTop: 4 },
+  restoreText: { color: '#94a3b8', fontSize: 14, textDecorationLine: 'underline' },
+  signInLink: { alignItems: 'center', marginTop: 4 },
+  signInLinkText: { color: '#4f46e5', fontSize: 14, textDecorationLine: 'underline' },
+  legal: {
+    fontSize: 11, color: '#94a3b8',
+    textAlign: 'center', lineHeight: 16, marginTop: 4,
+  },
 });

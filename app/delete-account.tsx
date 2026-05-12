@@ -67,6 +67,7 @@ export default function DeleteAccountScreen() {
           value={confirmText}
           onChangeText={setConfirmText}
           placeholder="DELETE"
+          placeholderTextColor="#94a3b8"
           autoCapitalize="characters"
         />
 
@@ -121,6 +122,7 @@ const styles = StyleSheet.create({
   input: {
     height: 44, borderWidth: 1, borderColor: '#e2e8f0',
     borderRadius: 8, paddingHorizontal: 12, fontSize: 16,
+    letterSpacing: 2,
   },
   error: { fontSize: 13, color: '#dc2626' },
   buttons: { flexDirection: 'row', gap: 12, marginTop: 8 },
