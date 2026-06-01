@@ -9,8 +9,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import OfflineBanner from '@/components/OfflineBanner';
 import { supabase } from '@/lib/supabase';
+import { useOTAUpdate } from '@/hooks/useOTAUpdate';
 
 export default function RootLayout() {
+  useOTAUpdate();
+
   useEffect(() => {
     const apiKey = Platform.OS === 'ios'
       ? process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY!

@@ -6,7 +6,14 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "update": "eas update --branch production",
+    "update:preview": "eas update --branch preview",
+    "build:ios": "eas build --platform ios --profile production",
+    "build:android": "eas build --platform android --profile production",
+    "build:preview": "eas build --platform all --profile preview",
+    "submit:ios": "eas submit --platform ios",
+    "submit:android": "eas submit --platform android"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "2.2.0",
@@ -15,6 +22,7 @@
     "@supabase/supabase-js": "^2.105.1",
     "@tanstack/react-query": "^5.100.8",
     "expo": "~54.0.33",
+    "expo-updates": "~0.28.0",
     "expo-apple-authentication": "~8.0.8",
     "expo-print": "~15.0.8",
     "expo-router": "~6.0.23",
