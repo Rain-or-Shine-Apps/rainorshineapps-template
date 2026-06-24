@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, ScrollView, RefreshControl } from 'react-native';
 import { useState, useEffect } from 'react';
 import Purchases, { PurchasesPackage } from 'react-native-purchases';
 import { router } from 'expo-router';
@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase';
 
 export default function PricingScreen() {
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [purchasing, setPurchasing] = useState(false);
   const [hasPremium, setHasPremium] = useState(false);
   const [package_, setPackage] = useState<PurchasesPackage | null>(null);
@@ -34,6 +35,12 @@ export default function PricingScreen() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await loadPurchaseInfo();
+    setRefreshing(false);
   };
 
   const handlePurchase = async () => {
@@ -77,7 +84,11 @@ export default function PricingScreen() {
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: 40 + insets.bottom }]}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} tintColor="#4f46e5" />}
+    >
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <ArrowLeft size={16} color="#94a3b8" />

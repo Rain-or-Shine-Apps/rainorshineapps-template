@@ -2,7 +2,6 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { router } from 'expo-router';
-import BottomNav from '@/components/BottomNav';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
@@ -25,8 +24,6 @@ export default function HomeScreen() {
       <Text style={styles.subtitle}>Signed in as {email}</Text>
 
       {/* ADD YOUR APP CONTENT HERE */}
-
-      <BottomNav />
     </View>
   );
 }
@@ -36,7 +33,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f8fafc',
     padding: 24,
-    paddingBottom: 80,
   },
   title: {
     fontSize: 32,

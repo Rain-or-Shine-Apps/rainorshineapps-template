@@ -7,12 +7,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // REPLACE APP_NAME with your app name
 const APP_NAME = 'APP_NAME';
 const SUPPORT_EMAIL = 'support@rainorshineapps.com';
-const insets = useSafeAreaInsets();
-
 
 export default function PrivacyPolicyScreen() {
+  const insets = useSafeAreaInsets();
   return (
-    <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}>
+    <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: 40 + insets.bottom }]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <ArrowLeft size={16} color="#94a3b8" />

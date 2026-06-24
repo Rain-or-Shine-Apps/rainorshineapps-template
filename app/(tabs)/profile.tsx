@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
-import { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, RefreshControl } from 'react-native';
+import { useCallback, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { router } from 'expo-router';
-import { ArrowLeft, LogOut, Crown, HelpCircle, Shield, FileText, Eye, Sparkles, User } from 'lucide-react-native';
+import { router, useFocusEffect } from 'expo-router';
+import { LogOut, Crown, HelpCircle, Shield, FileText, Eye, Sparkles, User } from 'lucide-react-native';
 import { hasEntitlement, logoutRevenueCat } from '@/lib/purchases';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -12,13 +12,10 @@ export default function ProfileScreen() {
   const [email, setEmail] = useState('');
   const [hasPremium, setHasPremium] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const insets = useSafeAreaInsets();
 
-  useEffect(() => {
-    loadUser();
-  }, []);
-
-  const loadUser = async () => {
+  const loadUser = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
       setEmail(user.email ?? '');
@@ -26,6 +23,15 @@ export default function ProfileScreen() {
       const premium = await hasEntitlement(ENTITLEMENT_ID);
       setHasPremium(premium);
     }
+  }, []);
+
+  // Refetch on focus — premium status can change after returning from Pricing
+  useFocusEffect(useCallback(() => { loadUser(); }, [loadUser]));
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await loadUser();
+    setRefreshing(false);
   };
 
   const handleSignOut = async () => {
@@ -44,11 +50,12 @@ export default function ProfileScreen() {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} tintColor="#4f46e5" />}
+    >
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <ArrowLeft size={16} color="#94a3b8" />
-        </TouchableOpacity>
         <Text style={styles.title}>Profile</Text>
       </View>
 
@@ -126,11 +133,6 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f8fafc' },
   content: { padding: 20, paddingBottom: 40, gap: 16 },
   header: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 8 },
-  backButton: {
-    width: 36, height: 36, borderRadius: 12,
-    backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#f1f5f9',
-    alignItems: 'center', justifyContent: 'center',
-  },
   title: { fontSize: 18, fontWeight: 'bold', color: '#0f172a' },
   avatarSection: { alignItems: 'center', gap: 8, paddingVertical: 16 },
   avatar: {
