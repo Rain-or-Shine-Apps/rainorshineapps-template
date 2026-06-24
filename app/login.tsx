@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } fr
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
 import { router } from 'expo-router';
 import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -42,6 +41,7 @@ export default function LoginScreen() {
   const handleGoogleSignIn = async () => {
     setLoading(true);
     try {
+      const { GoogleSignin, statusCodes } = require('@react-native-google-signin/google-signin');
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const idToken = userInfo.data?.idToken;
@@ -56,7 +56,9 @@ export default function LoginScreen() {
       }
       router.replace('/home');
     } catch (error: any) {
-      if (error.code !== statusCodes.SIGN_IN_CANCELLED) {
+      if (error.message?.includes('RNGoogleSignin') || error.message?.includes('native binary')) {
+        Alert.alert('Not available', 'Google Sign-In requires a development build. Please use email sign-in.');
+      } else if (error.code !== 'SIGN_IN_CANCELLED') {
         Alert.alert('Sign in failed', error.message);
       }
     } finally {
@@ -89,12 +91,9 @@ export default function LoginScreen() {
                 onPress={handleAppleSignIn}
               />
             )}
-            <GoogleSigninButton
-              style={styles.googleButton}
-              size={GoogleSigninButton.Size.Wide}
-              color={GoogleSigninButton.Color.Dark}
-              onPress={handleGoogleSignIn}
-            />
+            <TouchableOpacity style={styles.googleButton} onPress={handleGoogleSignIn}>
+              <Text style={styles.googleButtonText}>Sign in with Google</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.emailButton}
               onPress={() => router.push('/login-email')}
@@ -153,7 +152,21 @@ const styles = StyleSheet.create({
   },
   buttons: { gap: 12 },
   appleButton: { width: '100%', height: 52 },
-  googleButton: { width: '100%', height: 52 },
+  googleButton: {
+    width: '100%',
+    height: 52,
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  googleButtonText: {
+    fontSize: 16,
+    color: '#1e293b',
+    fontWeight: '600',
+  },
   emailButton: {
     width: '100%',
     height: 52,
