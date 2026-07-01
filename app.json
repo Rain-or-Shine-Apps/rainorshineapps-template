@@ -3,7 +3,6 @@
     "name": "APP_NAME",
     "slug": "APP_SLUG",
     "owner": "EXPO_OWNER",
-    "version": "1.0.0",
     "runtimeVersion": {
       "policy": "appVersion"
     },
