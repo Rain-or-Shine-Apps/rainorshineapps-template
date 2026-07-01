@@ -16,7 +16,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "APP_SLUG",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.rainorshineapps.APP_SLUG",

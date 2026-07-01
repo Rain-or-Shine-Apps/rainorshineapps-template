@@ -17,7 +17,7 @@ export default function RootLayout() {
     const apiKey = Platform.OS === 'ios'
       ? process.env.EXPO_PUBLIC_REVENUECAT_IOS_API_KEY!
       : process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY!;
-    if (Platform.OS === 'ios' || Platform.OS === 'android') {
+    if (apiKey && (Platform.OS === 'ios' || Platform.OS === 'android')) {
       try {
         Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
         Purchases.configure({ apiKey });
