@@ -33,7 +33,7 @@ Suggest:
 - Hero tagline
 - Meta description
 - 4–6 feature blocks (icon + short headline + 1–2 sentence description)
-The existing pages under rainorshineapps.github.io/<app>/index.html are a useful reference for house voice/tone, but they are not the template for this command's primary deliverables — the store listing copy above is.
+The existing pages under rain-or-shine-apps.github.io/<app>/index.html are a useful reference for house voice/tone, but they are not the template for this command's primary deliverables — the store listing copy above is.
 
 4. Save the full draft to marketing/store-listing.md in the current project.
 5. Present it to the user and ask if they want adjustments (tone, emphasis, specific phrases) before treating it as final.

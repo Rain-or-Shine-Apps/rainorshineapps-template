@@ -71,9 +71,11 @@
       "typedRoutes": true
     },
     "extra": {
-      "privacyPolicyUrl": "https://annebigister.github.io/APP_SLUG/privacy.html",
-      "supportUrl": "https://annebigister.github.io/APP_SLUG/support.html",
-      "marketingUrl": "https://annebigister.github.io/APP_SLUG/index.html"
+      "privacyPolicyUrl": "https://rain-or-shine-apps.github.io/APP_SLUG/privacy.html",
+      "supportUrl": "https://rain-or-shine-apps.github.io/APP_SLUG/support.html",
+      "marketingUrl": "https://rain-or-shine-apps.github.io/APP_SLUG/index.html",
+      "termsUrl": "https://rain-or-shine-apps.github.io/APP_SLUG/terms.html",                           
+      "accessibilityUrl": "https://rain-or-shine-apps.github.io/APP_SLUG/accessibility.html"
     }
   }
 }
