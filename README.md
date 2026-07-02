@@ -29,6 +29,12 @@ Search for these strings and replace throughout:
 - `support@rainorshineapps.com` → your support email
 - `premium` → your RevenueCat entitlement ID
 
+### 2b. Set your brand palette
+Every screen references `colors.*` from `src/lib/theme.ts` rather than hardcoding hex values —
+set your brand colours there once and the whole app restyles. Don't hardcode a new hex value in a
+screen; add it to `theme.ts` first, then reference it, so this stays the single source of truth
+for the next app that copies this template too.
+
 ### 3. Update app.json
 - Set `name`, `slug`, `scheme`
 - Set `ios.bundleIdentifier` to `com.rainorshineapps.yourappname`

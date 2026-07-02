@@ -5,6 +5,7 @@ import { router } from 'expo-router';
 import { ArrowLeft, Check, Sparkles } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { supabase } from '@/lib/supabase';
+import { colors } from '@/lib/theme';
 
 export default function PricingScreen() {
   const [loading, setLoading] = useState(true);
@@ -78,7 +79,7 @@ export default function PricingScreen() {
   if (loading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#4f46e5" />
+        <ActivityIndicator size="large" color={colors.accent} />
       </View>
     );
   }
@@ -91,7 +92,7 @@ export default function PricingScreen() {
     >
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <ArrowLeft size={16} color="#94a3b8" />
+          <ArrowLeft size={16} color={colors.textMuted} />
         </TouchableOpacity>
         <Text style={styles.title}>Pricing</Text>
       </View>
@@ -108,7 +109,7 @@ export default function PricingScreen() {
               'Feature three',
             ].map(f => (
               <View key={f} style={styles.feature}>
-                <Check size={14} color="#4f46e5" />
+                <Check size={14} color={colors.accent} />
                 <Text style={styles.featureText}>{f}</Text>
               </View>
             ))}
@@ -140,7 +141,7 @@ export default function PricingScreen() {
               'Priority support',
             ].map(f => (
               <View key={f} style={styles.feature}>
-                <Check size={14} color="#4f46e5" />
+                <Check size={14} color={colors.accent} />
                 <Text style={styles.featureText}>{f}</Text>
               </View>
             ))}
@@ -156,10 +157,10 @@ export default function PricingScreen() {
               disabled={purchasing}
             >
               {purchasing ? (
-                <ActivityIndicator color="#ffffff" />
+                <ActivityIndicator color={colors.surface} />
               ) : (
                 <View style={styles.buttonContent}>
-                  <Sparkles size={16} color="#ffffff" />
+                  <Sparkles size={16} color={colors.surface} />
                   <Text style={styles.upgradeButtonText}>Upgrade to Premium</Text>
                 </View>
               )}
@@ -184,51 +185,51 @@ export default function PricingScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f8fafc' },
+  container: { flex: 1, backgroundColor: colors.background },
   content: { padding: 20, paddingBottom: 40, gap: 16 },
   centered: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   header: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 8 },
   backButton: {
     width: 36, height: 36, borderRadius: 12,
-    backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#f1f5f9',
+    backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border,
     alignItems: 'center', justifyContent: 'center',
   },
-  title: { fontSize: 18, fontWeight: 'bold', color: '#0f172a' },
+  title: { fontSize: 18, fontWeight: 'bold', color: colors.textPrimary },
   cards: { gap: 16 },
   card: {
-    backgroundColor: '#ffffff', borderRadius: 16,
-    padding: 20, borderWidth: 1, borderColor: '#e2e8f0', gap: 12,
+    backgroundColor: colors.surface, borderRadius: 16,
+    padding: 20, borderWidth: 1, borderColor: colors.inputBorder, gap: 12,
   },
-  cardActive: { borderColor: '#4f46e5', borderWidth: 2 },
+  cardActive: { borderColor: colors.accent, borderWidth: 2 },
   activeBadge: {
     position: 'absolute', top: -12, alignSelf: 'center',
-    backgroundColor: '#4f46e5', paddingHorizontal: 12,
+    backgroundColor: colors.accent, paddingHorizontal: 12,
     paddingVertical: 4, borderRadius: 12,
   },
-  activeBadgeText: { color: '#ffffff', fontSize: 12, fontWeight: '600' },
-  planName: { fontSize: 20, fontWeight: 'bold', color: '#1e293b' },
-  price: { fontSize: 32, fontWeight: 'bold', color: '#1e293b' },
-  priceNote: { fontSize: 16, fontWeight: 'normal', color: '#64748b' },
+  activeBadgeText: { color: colors.surface, fontSize: 12, fontWeight: '600' },
+  planName: { fontSize: 20, fontWeight: 'bold', color: colors.textPrimary },
+  price: { fontSize: 32, fontWeight: 'bold', color: colors.textPrimary },
+  priceNote: { fontSize: 16, fontWeight: 'normal', color: colors.textSecondary },
   features: { gap: 8, marginBottom: 8 },
   feature: { flexDirection: 'row', gap: 8, alignItems: 'flex-start' },
-  featureText: { fontSize: 14, color: '#64748b', flex: 1 },
+  featureText: { fontSize: 14, color: colors.textSecondary, flex: 1 },
   currentPlan: {
-    backgroundColor: '#eff6ff', borderRadius: 8,
+    backgroundColor: colors.infoBg, borderRadius: 8,
     padding: 10, alignItems: 'center',
   },
-  currentPlanText: { color: '#4f46e5', fontWeight: '600', fontSize: 14 },
+  currentPlanText: { color: colors.accent, fontWeight: '600', fontSize: 14 },
   upgradeButton: {
-    backgroundColor: '#4f46e5', borderRadius: 12,
+    backgroundColor: colors.accent, borderRadius: 12,
     padding: 14, alignItems: 'center',
   },
   buttonContent: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  upgradeButtonText: { color: '#ffffff', fontWeight: '600', fontSize: 16 },
+  upgradeButtonText: { color: colors.surface, fontWeight: '600', fontSize: 16 },
   restore: { alignItems: 'center', marginTop: 4 },
-  restoreText: { color: '#94a3b8', fontSize: 14, textDecorationLine: 'underline' },
+  restoreText: { color: colors.textMuted, fontSize: 14, textDecorationLine: 'underline' },
   signInLink: { alignItems: 'center', marginTop: 4 },
-  signInLinkText: { color: '#4f46e5', fontSize: 14, textDecorationLine: 'underline' },
+  signInLinkText: { color: colors.accent, fontSize: 14, textDecorationLine: 'underline' },
   legal: {
-    fontSize: 11, color: '#94a3b8',
+    fontSize: 11, color: colors.textMuted,
     textAlign: 'center', lineHeight: 16, marginTop: 4,
   },
 });

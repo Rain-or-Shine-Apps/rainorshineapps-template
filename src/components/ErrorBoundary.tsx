@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { colors } from '@/lib/theme';
 
 interface State {
   hasError: boolean;
@@ -51,19 +52,19 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f8fafc',
+    backgroundColor: colors.background,
     padding: 24,
     gap: 12,
   },
   emoji: { fontSize: 48 },
-  title: { fontSize: 20, fontWeight: 'bold', color: '#1e293b' },
-  message: { fontSize: 14, color: '#64748b', textAlign: 'center', lineHeight: 20 },
+  title: { fontSize: 20, fontWeight: 'bold', color: colors.textPrimary },
+  message: { fontSize: 14, color: colors.textSecondary, textAlign: 'center', lineHeight: 20 },
   button: {
-    backgroundColor: '#4f46e5',
+    backgroundColor: colors.accent,
     borderRadius: 12,
     paddingHorizontal: 24,
     paddingVertical: 12,
     marginTop: 8,
   },
-  buttonText: { color: '#ffffff', fontWeight: '600', fontSize: 15 },
+  buttonText: { color: colors.surface, fontWeight: '600', fontSize: 15 },
 });

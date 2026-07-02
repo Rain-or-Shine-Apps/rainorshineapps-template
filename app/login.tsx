@@ -6,6 +6,7 @@ import { router } from 'expo-router';
 import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { loginRevenueCat } from '@/lib/purchases';
+import { colors } from '@/lib/theme';
 
 export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
@@ -79,7 +80,7 @@ export default function LoginScreen() {
 
       <View style={styles.buttons}>
         {loading ? (
-          <ActivityIndicator size="large" color="#4f46e5" />
+          <ActivityIndicator size="large" color={colors.accent} />
         ) : (
           <>
             {Platform.OS === 'ios' && (
@@ -117,7 +118,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
+    backgroundColor: colors.background,
     justifyContent: 'space-between',
     padding: 24,
     paddingBottom: 48,
@@ -126,14 +127,14 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 12,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderColor: colors.inputBorder,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'flex-start',
   },
-  backArrow: { fontSize: 18, color: '#1e293b' },
+  backArrow: { fontSize: 18, color: colors.textPrimary },
   header: {
     alignItems: 'center',
     marginTop: 40,
@@ -141,12 +142,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 48,
     fontWeight: 'bold',
-    color: '#1e293b',
+    color: colors.textPrimary,
     letterSpacing: -1,
   },
   subtitle: {
     fontSize: 18,
-    color: '#64748b',
+    color: colors.textSecondary,
     marginTop: 12,
     textAlign: 'center',
   },
@@ -155,33 +156,33 @@ const styles = StyleSheet.create({
   googleButton: {
     width: '100%',
     height: 52,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.surface,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderColor: colors.inputBorder,
     alignItems: 'center',
     justifyContent: 'center',
   },
   googleButtonText: {
     fontSize: 16,
-    color: '#1e293b',
+    color: colors.textPrimary,
     fontWeight: '600',
   },
   emailButton: {
     width: '100%',
     height: 52,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.surface,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderColor: colors.inputBorder,
     alignItems: 'center',
     justifyContent: 'center',
   },
   emailButtonText: {
     fontSize: 16,
-    color: '#1e293b',
+    color: colors.textPrimary,
     fontWeight: '600',
   },
-  footer: { textAlign: 'center', fontSize: 12, color: '#94a3b8', lineHeight: 18 },
-  footerLink: { color: '#64748b', textDecorationLine: 'underline' },
+  footer: { textAlign: 'center', fontSize: 12, color: colors.textMuted, lineHeight: 18 },
+  footerLink: { color: colors.textSecondary, textDecorationLine: 'underline' },
 });

@@ -5,6 +5,7 @@ import { router, useFocusEffect } from 'expo-router';
 import { LogOut, Crown, HelpCircle, Shield, FileText, Eye, Sparkles, User } from 'lucide-react-native';
 import { hasEntitlement, logoutRevenueCat } from '@/lib/purchases';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '@/lib/theme';
 
 const ENTITLEMENT_ID = 'premium'; // Replace with your entitlement ID
 
@@ -68,7 +69,7 @@ export default function ProfileScreen() {
         <Text style={styles.email}>{isSignedIn ? email : 'Not signed in'}</Text>
         {hasPremium && (
           <View style={styles.premiumBadge}>
-            <Sparkles size={12} color="#4f46e5" />
+            <Sparkles size={12} color={colors.accent} />
             <Text style={styles.premiumBadgeText}>Premium</Text>
           </View>
         )}
@@ -77,7 +78,7 @@ export default function ProfileScreen() {
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Subscription</Text>
         <View style={styles.subscriptionRow}>
-          <Crown size={20} color={hasPremium ? '#4f46e5' : '#94a3b8'} />
+          <Crown size={20} color={hasPremium ? colors.accent : colors.textMuted} />
           <View style={styles.subscriptionInfo}>
             <Text style={styles.subscriptionPlan}>
               {hasPremium ? 'Premium Plan' : 'Free Plan'}
@@ -89,7 +90,7 @@ export default function ProfileScreen() {
         </View>
         {!hasPremium && (
           <TouchableOpacity style={styles.upgradeButton} onPress={() => router.push('/pricing')}>
-            <Sparkles size={16} color="#ffffff" />
+            <Sparkles size={16} color={colors.surface} />
             <Text style={styles.upgradeButtonText}>Upgrade to Premium</Text>
           </TouchableOpacity>
         )}
@@ -109,15 +110,15 @@ export default function ProfileScreen() {
             style={styles.linkRow}
             onPress={() => router.push(item.route as any)}
           >
-            <item.icon size={18} color={item.danger ? '#dc2626' : '#64748b'} />
-            <Text style={[styles.linkText, item.danger && { color: '#dc2626' }]}>{item.label}</Text>
+            <item.icon size={18} color={item.danger ? colors.danger : colors.textSecondary} />
+            <Text style={[styles.linkText, item.danger && { color: colors.danger }]}>{item.label}</Text>
           </TouchableOpacity>
         ))}
       </View>
 
       {isSignedIn ? (
         <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
-          <LogOut size={18} color="#dc2626" />
+          <LogOut size={18} color={colors.danger} />
           <Text style={styles.signOutText}>Sign Out</Text>
         </TouchableOpacity>
       ) : (
@@ -130,52 +131,52 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f8fafc' },
+  container: { flex: 1, backgroundColor: colors.background },
   content: { padding: 20, paddingBottom: 40, gap: 16 },
   header: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 8 },
-  title: { fontSize: 18, fontWeight: 'bold', color: '#0f172a' },
+  title: { fontSize: 18, fontWeight: 'bold', color: colors.textPrimary },
   avatarSection: { alignItems: 'center', gap: 8, paddingVertical: 16 },
   avatar: {
     width: 80, height: 80, borderRadius: 40,
-    backgroundColor: '#4f46e5',
+    backgroundColor: colors.accent,
     alignItems: 'center', justifyContent: 'center',
   },
-  avatarText: { fontSize: 32, fontWeight: 'bold', color: '#ffffff' },
-  email: { fontSize: 14, color: '#64748b' },
+  avatarText: { fontSize: 32, fontWeight: 'bold', color: colors.surface },
+  email: { fontSize: 14, color: colors.textSecondary },
   premiumBadge: {
     flexDirection: 'row', alignItems: 'center', gap: 4,
-    backgroundColor: '#eff6ff', paddingHorizontal: 10,
+    backgroundColor: colors.infoBg, paddingHorizontal: 10,
     paddingVertical: 4, borderRadius: 12,
   },
-  premiumBadgeText: { fontSize: 12, color: '#4f46e5', fontWeight: '600' },
+  premiumBadgeText: { fontSize: 12, color: colors.accent, fontWeight: '600' },
   card: {
-    backgroundColor: '#ffffff', borderRadius: 16,
-    borderWidth: 1, borderColor: '#f1f5f9', padding: 20, gap: 12,
+    backgroundColor: colors.surface, borderRadius: 16,
+    borderWidth: 1, borderColor: colors.border, padding: 20, gap: 12,
   },
-  cardTitle: { fontSize: 14, fontWeight: '600', color: '#1e293b', marginBottom: 4 },
+  cardTitle: { fontSize: 14, fontWeight: '600', color: colors.textPrimary, marginBottom: 4 },
   subscriptionRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   subscriptionInfo: { flex: 1 },
-  subscriptionPlan: { fontSize: 14, fontWeight: '600', color: '#1e293b' },
-  subscriptionDetail: { fontSize: 12, color: '#64748b' },
+  subscriptionPlan: { fontSize: 14, fontWeight: '600', color: colors.textPrimary },
+  subscriptionDetail: { fontSize: 12, color: colors.textSecondary },
   upgradeButton: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-    gap: 8, height: 44, backgroundColor: '#4f46e5', borderRadius: 12,
+    gap: 8, height: 44, backgroundColor: colors.accent, borderRadius: 12,
   },
-  upgradeButtonText: { color: '#ffffff', fontSize: 15, fontWeight: '600' },
+  upgradeButtonText: { color: colors.surface, fontSize: 15, fontWeight: '600' },
   linkRow: {
     flexDirection: 'row', alignItems: 'center', gap: 12,
-    paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: '#f1f5f9',
+    paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: colors.border,
   },
-  linkText: { fontSize: 14, color: '#1e293b', flex: 1 },
+  linkText: { fontSize: 14, color: colors.textPrimary, flex: 1 },
   signOutButton: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-    gap: 8, padding: 16, backgroundColor: '#ffffff', borderRadius: 16,
-    borderWidth: 1, borderColor: '#fecaca',
+    gap: 8, padding: 16, backgroundColor: colors.surface, borderRadius: 16,
+    borderWidth: 1, borderColor: colors.dangerBorder,
   },
-  signOutText: { fontSize: 15, color: '#dc2626', fontWeight: '600' },
+  signOutText: { fontSize: 15, color: colors.danger, fontWeight: '600' },
   signInButton: {
-    height: 48, backgroundColor: '#4f46e5',
+    height: 48, backgroundColor: colors.accent,
     borderRadius: 14, alignItems: 'center', justifyContent: 'center',
   },
-  signInButtonText: { fontSize: 15, color: '#fff', fontWeight: '600' },
+  signInButtonText: { fontSize: 15, color: colors.surface, fontWeight: '600' },
 });

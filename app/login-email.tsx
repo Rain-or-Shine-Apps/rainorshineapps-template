@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { loginRevenueCat } from '@/lib/purchases';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '@/lib/theme';
 
 export default function LoginEmailScreen() {
   const [email, setEmail] = useState('');
@@ -68,7 +69,7 @@ export default function LoginEmailScreen() {
           secureTextEntry
         />
         {loading ? (
-          <ActivityIndicator size="large" color="#4f46e5" />
+          <ActivityIndicator size="large" color={colors.accent} />
         ) : (
           <TouchableOpacity style={styles.button} onPress={handleAuth}>
             <Text style={styles.buttonText}>
@@ -89,42 +90,42 @@ export default function LoginEmailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
+    backgroundColor: colors.background,
     padding: 24,
   },
   back: { marginBottom: 32 },
-  backText: { fontSize: 16, color: '#4f46e5' },
+  backText: { fontSize: 16, color: colors.accent },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#1e293b',
+    color: colors.textPrimary,
     marginBottom: 32,
   },
   form: { gap: 12 },
   input: {
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.surface,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#e2e8f0',
+    borderColor: colors.inputBorder,
     padding: 16,
     fontSize: 16,
-    color: '#1e293b',
+    color: colors.textPrimary,
   },
   button: {
-    backgroundColor: '#4f46e5',
+    backgroundColor: colors.accent,
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
     marginTop: 8,
   },
   buttonText: {
-    color: '#ffffff',
+    color: colors.surface,
     fontSize: 16,
     fontWeight: '600',
   },
   switchText: {
     textAlign: 'center',
-    color: '#4f46e5',
+    color: colors.accent,
     fontSize: 14,
     marginTop: 8,
   },

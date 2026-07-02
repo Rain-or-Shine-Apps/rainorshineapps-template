@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '@/lib/theme';
 
 export default function HomeScreen() {
   const [email, setEmail] = useState('');
@@ -31,17 +32,17 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
+    backgroundColor: colors.background,
     padding: 24,
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#1e293b',
+    color: colors.textPrimary,
   },
   subtitle: {
     fontSize: 16,
-    color: '#64748b',
+    color: colors.textSecondary,
     marginTop: 8,
   },
 });

@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { ArrowLeft, HelpCircle, Check, Send } from 'lucide-react-native';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors } from '@/lib/theme';
 
 // REPLACE with your support email
 const SUPPORT_EMAIL = 'support@rainorshineapps.com';
@@ -38,9 +39,9 @@ export default function SupportScreen() {
     <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: 40 + insets.bottom }]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <ArrowLeft size={16} color="#94a3b8" />
+          <ArrowLeft size={16} color={colors.textMuted} />
         </TouchableOpacity>
-        <HelpCircle size={20} color="#4f46e5" />
+        <HelpCircle size={20} color={colors.accent} />
         <Text style={styles.title}>Support</Text>
       </View>
 
@@ -48,7 +49,7 @@ export default function SupportScreen() {
         {sent ? (
           <View style={styles.successContainer}>
             <View style={styles.successIcon}>
-              <Check size={28} color="#059669" />
+              <Check size={28} color={colors.success} />
             </View>
             <Text style={styles.successTitle}>Message Sent!</Text>
             <Text style={styles.successText}>Thanks for reaching out. We'll get back to you as soon as possible.</Text>
@@ -71,10 +72,10 @@ export default function SupportScreen() {
               disabled={sending || !name.trim() || !email.trim() || !message.trim()}
             >
               {sending ? (
-                <ActivityIndicator color="#ffffff" size="small" />
+                <ActivityIndicator color={colors.surface} size="small" />
               ) : (
                 <View style={styles.buttonContent}>
-                  <Send size={16} color="#ffffff" />
+                  <Send size={16} color={colors.surface} />
                   <Text style={styles.buttonText}>Send Message</Text>
                 </View>
               )}
@@ -87,49 +88,49 @@ export default function SupportScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f8fafc' },
+  container: { flex: 1, backgroundColor: colors.background },
   content: { padding: 20, paddingBottom: 40, gap: 16 },
   header: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 8 },
   backButton: {
     width: 36, height: 36, borderRadius: 12,
-    backgroundColor: '#ffffff', borderWidth: 1, borderColor: '#f1f5f9',
+    backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border,
     alignItems: 'center', justifyContent: 'center',
   },
-  title: { fontSize: 18, fontWeight: 'bold', color: '#0f172a', flex: 1 },
+  title: { fontSize: 18, fontWeight: 'bold', color: colors.textPrimary, flex: 1 },
   card: {
-    backgroundColor: '#ffffff', borderRadius: 16,
-    borderWidth: 1, borderColor: '#f1f5f9', padding: 24, gap: 12,
+    backgroundColor: colors.surface, borderRadius: 16,
+    borderWidth: 1, borderColor: colors.border, padding: 24, gap: 12,
   },
-  subtitle: { fontSize: 13, color: '#64748b' },
-  label: { fontSize: 13, fontWeight: '500', color: '#475569' },
+  subtitle: { fontSize: 13, color: colors.textSecondary },
+  label: { fontSize: 13, fontWeight: '500', color: colors.textSecondary },
   input: {
-    height: 44, borderWidth: 1, borderColor: '#e2e8f0',
-    borderRadius: 8, paddingHorizontal: 12, fontSize: 15, color: '#1e293b',
+    height: 44, borderWidth: 1, borderColor: colors.inputBorder,
+    borderRadius: 8, paddingHorizontal: 12, fontSize: 15, color: colors.textPrimary,
   },
   textarea: {
-    height: 120, borderWidth: 1, borderColor: '#e2e8f0',
+    height: 120, borderWidth: 1, borderColor: colors.inputBorder,
     borderRadius: 8, paddingHorizontal: 12, paddingVertical: 10,
-    fontSize: 15, color: '#1e293b',
+    fontSize: 15, color: colors.textPrimary,
   },
   button: {
-    height: 44, backgroundColor: '#4f46e5',
+    height: 44, backgroundColor: colors.accent,
     borderRadius: 12, alignItems: 'center', justifyContent: 'center',
     marginTop: 8,
   },
   buttonContent: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  buttonText: { color: '#ffffff', fontSize: 15, fontWeight: '600' },
+  buttonText: { color: colors.surface, fontSize: 15, fontWeight: '600' },
   disabled: { opacity: 0.5 },
   successContainer: { alignItems: 'center', paddingVertical: 40, gap: 12 },
   successIcon: {
     width: 56, height: 56, borderRadius: 28,
-    backgroundColor: '#d1fae5', alignItems: 'center', justifyContent: 'center',
+    backgroundColor: colors.successBg, alignItems: 'center', justifyContent: 'center',
   },
-  successTitle: { fontSize: 18, fontWeight: 'bold', color: '#0f172a' },
-  successText: { fontSize: 13, color: '#64748b', textAlign: 'center' },
+  successTitle: { fontSize: 18, fontWeight: 'bold', color: colors.textPrimary },
+  successText: { fontSize: 13, color: colors.textSecondary, textAlign: 'center' },
   outlineButton: {
     height: 44, paddingHorizontal: 24, borderRadius: 12,
-    borderWidth: 1, borderColor: '#e2e8f0',
+    borderWidth: 1, borderColor: colors.inputBorder,
     alignItems: 'center', justifyContent: 'center', marginTop: 8,
   },
-  outlineButtonText: { fontSize: 15, color: '#1e293b', fontWeight: '500' },
+  outlineButtonText: { fontSize: 15, color: colors.textPrimary, fontWeight: '500' },
 });

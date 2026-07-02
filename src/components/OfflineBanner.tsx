@@ -2,6 +2,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
 import NetInfo from '@react-native-community/netinfo';
 import { WifiOff } from 'lucide-react-native';
+import { colors } from '@/lib/theme';
 
 export default function OfflineBanner() {
   const [isOffline, setIsOffline] = useState(false);
@@ -22,7 +23,7 @@ export default function OfflineBanner() {
 
   return (
     <View style={styles.banner}>
-      <WifiOff size={14} color="#ffffff" />
+      <WifiOff size={14} color={colors.surface} />
       <Text style={styles.text}>No internet connection</Text>
     </View>
   );
@@ -30,7 +31,7 @@ export default function OfflineBanner() {
 
 const styles = StyleSheet.create({
   banner: {
-    backgroundColor: '#ef4444',
+    backgroundColor: colors.danger,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   text: {
-    color: '#ffffff',
+    color: colors.surface,
     fontSize: 13,
     fontWeight: '500',
   },
