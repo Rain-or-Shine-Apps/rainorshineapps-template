@@ -46,13 +46,29 @@ Search for these strings and replace throughout:
 - Add your API key to `.env`
 
 ### 6. Set up Google Sign In
-- Go to Google Cloud Console
-- Create OAuth clients for iOS and Android
-- Add client IDs to `.env`
+This app uses the native Google Sign-In SDK (`GoogleSignin.signIn()`) to get an ID token, then
+`supabase.auth.signInWithIdToken()` — not the OAuth web-redirect flow. That means you need **three**
+OAuth clients in Google Cloud Console, and no client secrets:
+- **Web application** client — its Client ID is the one that actually matters for auth: it's passed
+  as `webClientId` to `GoogleSignin.configure()` (this becomes the ID token's audience) and must also
+  be set as the Client ID in **Supabase → Authentication → Providers → Google**. Add it to `.env` as
+  `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID`.
+- **iOS** client — its Client ID goes in `.env` as `EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID` (passed as
+  `iosClientId` to `GoogleSignin.configure()` in `app/_layout.tsx`). It also needs to be set as
+  `iosUrlScheme` in `app.json`'s `@react-native-google-signin/google-signin` plugin config, in the
+  form `com.googleusercontent.apps.<the numeric-prefix part of the client ID>` — without this, iOS
+  sign-in fails silently because the app can't receive the redirect back from Google.
+- **Android** client — needs the app's package name and SHA-1 certificate fingerprint registered
+  (get the fingerprint via `eas credentials` → Android → your build profile). Its Client ID is
+  **not** used anywhere in code or `.env` — Android identifies the app via package name + SHA-1, not
+  a client ID passed at runtime.
 
 ### 7. Set up Apple Sign In
-- Enable Sign in with Apple in your Apple Developer account
-- Configure in Supabase Auth providers
+This app uses the native Sign in with Apple flow (`AppleAuthentication.signInAsync()`), not the
+OAuth web-redirect flow, so no Services ID or client secret is needed:
+- Enable "Sign in with Apple" as a capability on your App ID in the Apple Developer account
+- In **Supabase → Authentication → Providers → Apple**, set the Client ID field to your app's
+  **bundle identifier** (e.g. `com.rainorshineapps.yourapp`) — not a Services ID
 
 ### 8. Configure EAS
 ```bash
