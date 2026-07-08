@@ -23,8 +23,14 @@ export default function DeleteAccountScreen() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
-      // ADD YOUR DATA DELETION LOGIC HERE
-      // Example: await supabase.from('your_table').delete().eq('user_id', user.id);
+      // If you have tables that don't cascade-delete on auth.users(id), delete those
+      // rows here first, client-side, the same way as any other table:
+      // await supabase.from('your_table').delete().eq('user_id', user.id);
+
+      // Deletes the auth user server-side (via a service-role Edge Function) — the client
+      // can't delete its own auth account directly. See supabase/functions/delete-account.
+      const { error: fnError } = await supabase.functions.invoke('delete-account');
+      if (fnError) throw fnError;
 
       await supabase.auth.signOut();
       router.replace('/login');
@@ -53,12 +59,14 @@ export default function DeleteAccountScreen() {
 
         <Text style={styles.sectionTitle}>What will be deleted:</Text>
         {[
-          'Your account and profile',
+          'Your account and sign-in',
           'All your content and data',
-          'Your subscription status',
         ].map(item => (
           <Text key={item} style={styles.bulletItem}>• {item}</Text>
         ))}
+        <Text style={styles.note}>
+          This doesn't cancel an active subscription — manage or cancel that separately via the App Store or Google Play.
+        </Text>
 
         <Text style={styles.label}>
           Type <Text style={styles.mono}>DELETE</Text> to confirm
@@ -118,6 +126,7 @@ const styles = StyleSheet.create({
   bold: { fontWeight: 'bold' },
   sectionTitle: { fontSize: 14, fontWeight: '600', color: colors.textPrimary },
   bulletItem: { fontSize: 13, color: colors.textSecondary, marginLeft: 8 },
+  note: { fontSize: 12, color: colors.textMuted, marginTop: 4, lineHeight: 17 },
   label: { fontSize: 13, fontWeight: '500', color: colors.textSecondary },
   mono: { fontFamily: 'monospace', fontWeight: 'bold' },
   input: {
