@@ -38,7 +38,7 @@ export default function SupportScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: 40 + insets.bottom }]}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.backButton} accessibilityRole="button" accessibilityLabel="Back">
           <ArrowLeft size={16} color={colors.textMuted} />
         </TouchableOpacity>
         <HelpCircle size={20} color={colors.accent} />
@@ -53,7 +53,7 @@ export default function SupportScreen() {
             </View>
             <Text style={styles.successTitle}>Message Sent!</Text>
             <Text style={styles.successText}>Thanks for reaching out. We'll get back to you as soon as possible.</Text>
-            <TouchableOpacity style={styles.outlineButton} onPress={() => router.back()}>
+            <TouchableOpacity style={styles.outlineButton} onPress={() => router.back()} accessibilityRole="button" accessibilityLabel="Go back">
               <Text style={styles.outlineButtonText}>Go Back</Text>
             </TouchableOpacity>
           </View>
@@ -61,15 +61,18 @@ export default function SupportScreen() {
           <>
             <Text style={styles.subtitle}>Have a question? Fill in the form below and we'll get back to you.</Text>
             <Text style={styles.label}>Name</Text>
-            <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Your name" />
+            <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Your name" accessibilityLabel="Name" />
             <Text style={styles.label}>Email</Text>
-            <TextInput style={styles.input} value={email} onChangeText={setEmail} placeholder="your@email.com" keyboardType="email-address" autoCapitalize="none" />
+            <TextInput style={styles.input} value={email} onChangeText={setEmail} placeholder="your@email.com" keyboardType="email-address" autoCapitalize="none" accessibilityLabel="Email" />
             <Text style={styles.label}>Message</Text>
-            <TextInput style={styles.textarea} value={message} onChangeText={setMessage} placeholder="How can we help?" multiline numberOfLines={5} textAlignVertical="top" />
+            <TextInput style={styles.textarea} value={message} onChangeText={setMessage} placeholder="How can we help?" multiline numberOfLines={5} textAlignVertical="top" accessibilityLabel="Message" />
             <TouchableOpacity
               style={[styles.button, (!name.trim() || !email.trim() || !message.trim()) && styles.disabled]}
               onPress={handleSubmit}
               disabled={sending || !name.trim() || !email.trim() || !message.trim()}
+              accessibilityRole="button"
+              accessibilityLabel="Send message"
+              accessibilityState={{ disabled: sending || !name.trim() || !email.trim() || !message.trim(), busy: sending }}
             >
               {sending ? (
                 <ActivityIndicator color={colors.surface} size="small" />

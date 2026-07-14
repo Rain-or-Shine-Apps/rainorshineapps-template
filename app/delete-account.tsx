@@ -43,7 +43,7 @@ export default function DeleteAccountScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: 40 + insets.bottom }]}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.backButton} accessibilityRole="button" accessibilityLabel="Back">
           <ArrowLeft size={16} color={colors.textMuted} />
         </TouchableOpacity>
         <Text style={styles.title}>Delete Account</Text>
@@ -78,18 +78,28 @@ export default function DeleteAccountScreen() {
           placeholder="DELETE"
           placeholderTextColor="#94a3b8"
           autoCapitalize="characters"
+          accessibilityLabel="Type DELETE to confirm"
         />
 
-        {error ? <Text style={styles.error}>{error}</Text> : null}
+        {error ? <Text style={styles.error} accessibilityLiveRegion="polite">{error}</Text> : null}
 
         <View style={styles.buttons}>
-          <TouchableOpacity style={styles.cancelButton} onPress={() => router.back()} disabled={deleting}>
+          <TouchableOpacity
+            style={styles.cancelButton}
+            onPress={() => router.back()}
+            disabled={deleting}
+            accessibilityRole="button"
+            accessibilityLabel="Cancel"
+          >
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.deleteButton, (confirmText !== 'DELETE' || deleting) && styles.disabled]}
             onPress={handleDelete}
             disabled={confirmText !== 'DELETE' || deleting}
+            accessibilityRole="button"
+            accessibilityLabel="Delete account"
+            accessibilityState={{ disabled: confirmText !== 'DELETE' || deleting, busy: deleting }}
           >
             {deleting ? (
               <ActivityIndicator color={colors.surface} size="small" />

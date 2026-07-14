@@ -89,7 +89,12 @@ export default function ProfileScreen() {
           </View>
         </View>
         {!hasPremium && (
-          <TouchableOpacity style={styles.upgradeButton} onPress={() => router.push('/pricing')}>
+          <TouchableOpacity
+            style={styles.upgradeButton}
+            onPress={() => router.push('/pricing')}
+            accessibilityRole="button"
+            accessibilityLabel="Upgrade to Premium"
+          >
             <Sparkles size={16} color={colors.surface} />
             <Text style={styles.upgradeButtonText}>Upgrade to Premium</Text>
           </TouchableOpacity>
@@ -109,20 +114,22 @@ export default function ProfileScreen() {
             key={item.label}
             style={styles.linkRow}
             onPress={() => router.push(item.route as any)}
+            accessibilityRole="button"
+            accessibilityLabel={item.label}
           >
-            <item.icon size={18} color={item.danger ? colors.danger : colors.textSecondary} />
+            <item.icon size={18} color={item.danger ? colors.danger : colors.textSecondary} accessibilityElementsHidden importantForAccessibility="no" />
             <Text style={[styles.linkText, item.danger && { color: colors.danger }]}>{item.label}</Text>
           </TouchableOpacity>
         ))}
       </View>
 
       {isSignedIn ? (
-        <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
+        <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut} accessibilityRole="button" accessibilityLabel="Sign out">
           <LogOut size={18} color={colors.danger} />
           <Text style={styles.signOutText}>Sign Out</Text>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity style={styles.signInButton} onPress={() => router.push('/login')}>
+        <TouchableOpacity style={styles.signInButton} onPress={() => router.push('/login')} accessibilityRole="button" accessibilityLabel="Sign in">
           <Text style={styles.signInButtonText}>Sign In</Text>
         </TouchableOpacity>
       )}

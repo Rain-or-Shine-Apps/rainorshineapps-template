@@ -44,7 +44,7 @@ export default function LoginEmailScreen() {
 
   return (
     <View style={[styles.container, { paddingTop: insets.top + 16 }]}>
-      <TouchableOpacity onPress={() => router.back()} style={styles.back}>
+      <TouchableOpacity onPress={() => router.back()} style={styles.back} accessibilityRole="button" accessibilityLabel="Back">
         <Text style={styles.backText}>← Back</Text>
       </TouchableOpacity>
 
@@ -59,6 +59,7 @@ export default function LoginEmailScreen() {
           onChangeText={setEmail}
           autoCapitalize="none"
           keyboardType="email-address"
+          accessibilityLabel="Email"
         />
         <TextInput
           style={styles.input}
@@ -67,17 +68,27 @@ export default function LoginEmailScreen() {
           value={password}
           onChangeText={setPassword}
           secureTextEntry
+          accessibilityLabel="Password"
         />
         {loading ? (
           <ActivityIndicator size="large" color={colors.accent} />
         ) : (
-          <TouchableOpacity style={styles.button} onPress={handleAuth}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleAuth}
+            accessibilityRole="button"
+            accessibilityLabel={isSignUp ? 'Create account' : 'Sign in'}
+          >
             <Text style={styles.buttonText}>
               {isSignUp ? 'Create Account' : 'Sign In'}
             </Text>
           </TouchableOpacity>
         )}
-        <TouchableOpacity onPress={() => setIsSignUp(!isSignUp)}>
+        <TouchableOpacity
+          onPress={() => setIsSignUp(!isSignUp)}
+          accessibilityRole="button"
+          accessibilityLabel={isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
+        >
           <Text style={styles.switchText}>
             {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
           </Text>

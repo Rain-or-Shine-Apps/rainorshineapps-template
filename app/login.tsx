@@ -69,7 +69,12 @@ export default function LoginScreen() {
 
   return (
     <View style={[styles.container, { paddingTop: insets.top + 16, paddingBottom: 48 + insets.bottom }]}>
-      <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+      <TouchableOpacity
+        onPress={() => router.back()}
+        style={styles.backButton}
+        accessibilityRole="button"
+        accessibilityLabel="Back"
+      >
         <Text style={styles.backArrow}>←</Text>
       </TouchableOpacity>
 
@@ -92,12 +97,19 @@ export default function LoginScreen() {
                 onPress={handleAppleSignIn}
               />
             )}
-            <TouchableOpacity style={styles.googleButton} onPress={handleGoogleSignIn}>
+            <TouchableOpacity
+              style={styles.googleButton}
+              onPress={handleGoogleSignIn}
+              accessibilityRole="button"
+              accessibilityLabel="Sign in with Google"
+            >
               <Text style={styles.googleButtonText}>Sign in with Google</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.emailButton}
               onPress={() => router.push('/login-email')}
+              accessibilityRole="button"
+              accessibilityLabel="Continue with email"
             >
               <Text style={styles.emailButtonText}>Continue with Email</Text>
             </TouchableOpacity>
@@ -107,9 +119,9 @@ export default function LoginScreen() {
 
       <Text style={styles.footer}>
         By continuing you agree to our{' '}
-        <Text style={styles.footerLink} onPress={() => router.push('/terms-conditions')}>Terms</Text>
+        <Text style={styles.footerLink} onPress={() => router.push('/terms-conditions')} accessibilityRole="link">Terms</Text>
         {' '}&{' '}
-        <Text style={styles.footerLink} onPress={() => router.push('/privacy-policy')}>Privacy Policy</Text>
+        <Text style={styles.footerLink} onPress={() => router.push('/privacy-policy')} accessibilityRole="link">Privacy Policy</Text>
       </Text>
     </View>
   );

@@ -91,7 +91,7 @@ export default function PricingScreen() {
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} tintColor="#4f46e5" />}
     >
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.backButton} accessibilityRole="button" accessibilityLabel="Back">
           <ArrowLeft size={16} color={colors.textMuted} />
         </TouchableOpacity>
         <Text style={styles.title}>Pricing</Text>
@@ -155,6 +155,9 @@ export default function PricingScreen() {
               style={styles.upgradeButton}
               onPress={handlePurchase}
               disabled={purchasing}
+              accessibilityRole="button"
+              accessibilityLabel={`Upgrade to Premium — ${package_?.product.priceString ?? 'price unavailable'}, one-time`}
+              accessibilityState={{ disabled: purchasing, busy: purchasing }}
             >
               {purchasing ? (
                 <ActivityIndicator color={colors.surface} />
@@ -169,11 +172,11 @@ export default function PricingScreen() {
         </View>
       </View>
 
-      <TouchableOpacity onPress={handleRestore} style={styles.restore}>
+      <TouchableOpacity onPress={handleRestore} style={styles.restore} accessibilityRole="button" accessibilityLabel="Restore purchases">
         <Text style={styles.restoreText}>Restore purchases</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => router.push('/login')} style={styles.signInLink}>
+      <TouchableOpacity onPress={() => router.push('/login')} style={styles.signInLink} accessibilityRole="button" accessibilityLabel="Already have an account? Sign in">
         <Text style={styles.signInLinkText}>Already have an account? Sign in →</Text>
       </TouchableOpacity>
 

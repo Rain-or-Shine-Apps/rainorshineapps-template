@@ -2,6 +2,13 @@ import { Tabs } from 'expo-router';
 import { Home, User } from 'lucide-react-native';
 import { colors } from '@/lib/theme';
 
+// Explicit rather than relying on file/declaration order — makes sure a
+// fresh launch always lands on Home, never wherever the tab bar happened
+// to be left (e.g. after a gated action, or a Fast Refresh reload).
+export const unstable_settings = {
+  initialRouteName: 'home',
+};
+
 export default function TabsLayout() {
   return (
     <Tabs

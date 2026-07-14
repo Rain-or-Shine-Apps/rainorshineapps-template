@@ -70,7 +70,7 @@ export default function AccessibilityScreen() {
           <Text style={styles.cardTitle}>Contact Us</Text>
         </View>
         <Text style={styles.infoText}>If you experience any accessibility issues, please get in touch and we'll do our best to help.</Text>
-        <TouchableOpacity onPress={() => router.push('/support')}>
+        <TouchableOpacity onPress={() => router.push('/support')} accessibilityRole="button" accessibilityLabel="Go to Support">
           <Text style={styles.link}>Go to Support →</Text>
         </TouchableOpacity>
       </View>

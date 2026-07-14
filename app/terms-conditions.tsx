@@ -13,7 +13,7 @@ export default function TermsConditionsScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingTop: insets.top + 16, paddingBottom: 40 + insets.bottom }]}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+        <TouchableOpacity onPress={() => router.back()} style={styles.backButton} accessibilityRole="button" accessibilityLabel="Back">
           <ArrowLeft size={16} color={colors.textMuted} />
         </TouchableOpacity>
         <FileText size={20} color={colors.accent} />
